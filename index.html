@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Der Schmelзende Kontinent - Daryna Khomaiko</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Увеличили ширину контейнера для двух колонок */
+        .main-container {
+            width: 100%;
+            max-width: 1100px; 
+            text-align: center;
+        }
+
+        h1 { font-weight: 300; letter-spacing: 2px; margin-bottom: 5px; text-transform: uppercase; }
+        .subtitle { font-size: 1.1em; color: #00aaff; margin-bottom: 40px; font-style: italic; }
+
+        /* Сетка для двух колонок */
+        .project-grid {
+            display: flex;
+            flex-wrap: wrap; /* Чтобы на мобилках падали друг под друга */
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .column {
+            flex: 1;
+            min-width: 300px; /* Чтобы колонки не были слишком узкими */
+            max-width: 500px;
+        }
+
+        h2 { font-weight: 300; font-size: 1.1em; margin-bottom: 20px; text-transform: uppercase; color: #888; }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #000;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Первый слайдер */
+        .slider-img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0;
+            transition: opacity 0.15s ease-in-out;
+        }
+        .slider-img.active { opacity: 1; }
+
+        /* Второй слайдер */
+        .comparison-slider { position: relative; width: 100%; height: 100%; }
+        .comparison-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .img-before { z-index: 2; }
+        .img-after { z-index: 1; }
+        .comparison-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 3;
+            clip-path: inset(0 50% 0 0); 
+        }
+
+        .controls { margin: 20px 0; width: 100%; }
+        input[type=range] { width: 100%; cursor: pointer; accent-color: #00aaff; }
+        .info { font-size: 0.8em; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+
+        .btn-erklärung {
+            margin-top: 50px; background: transparent; border: 1px solid #444;
+            color: #aaa; padding: 12px 25px; cursor: pointer; border-radius: 20px;
+            transition: 0.3s;
+        }
+        .btn-erklärung:hover { border-color: #00aaff; color: white; }
+
+        #explanation-text {
+            display: none; margin-top: 30px; text-align: left; font-size: 0.95em;
+            color: #ccc; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 8px;
+            max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>Der Schmelzende Kontinent</h1>
+        <div class="subtitle">von Daryna Khomaiko</div>
+        
+        <div class="project-grid">
+            
+            <!-- Левая колонка: Таймлапс -->
+            <div class="column">
+                <h2>Zeitverlauf</h2>
+                <div class="slider-wrapper">
+                    <img src="website/1.jpg" class="slider-img active">
+                    <img src="website/2.jpg" class="slider-img">
+                    <img src="website/3.jpg" class="slider-img">
+                    <img src="website/4.jpg" class="slider-img">
+                    <img src="website/5.jpg" class="slider-img">
+                    <img src="website/6.jpg" class="slider-img">
+                    <img src="website/7.jpg" class="slider-img">
+                    <img src="website/8.jpg" class="slider-img">
+                    <img src="website/9.jpg" class="slider-img">
+                    <img src="website/10.jpg" class="slider-img">
+                    <img src="website/11.jpg" class="slider-img">
+                    <img src="website/12.jpg" class="slider-img">
+                </div>
+                <div class="controls">
+                    <input type="range" id="time-slider" min="0" max="11" value="0">
+                    <p class="info">12 Etappen des Schmelzens</p>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Сравнение -->
+            <div class="column">
+                <h2>Direkter Vergleich</h2>
+                <div class="slider-wrapper">
+                    <div class="comparison-slider">
+                        <img src="website/1.jpg" class="comparison-img img-after">
+                        <div class="comparison-overlay" id="comparison-overlay">
+                            <img src="website/11.jpg" class="comparison-img img-before">
+                        </div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <input type="range" id="comparison-range" min="0" max="100" value="50">
+                    <p class="info">Vorher (Links) vs. Nachher (Rechts)</p>
+                </div>
+            </div>
+
+        </div> <!-- Конец сетки -->
+
+        <button class="btn-erklärung" onclick="toggleErklärung()">Erklärung</button>
+        <div id="explanation-text">
+            <strong>Über das Projekt:</strong><br>
+            Diese visuelle Performance thematisiert die globale Erwärmung und das dramatische Schmelzen der polaren Eiskappen. 
+            Durch die Gegenüberstellung der 12 Phasen und des direkten Vorher-Nachher-Vergleichs wird die Geschwindigkeit 
+            und Unwiderruflichkeit des ökologischen Wandels spürbar gemacht.
+        </div>
+    </div>
+
+    <script>
+        // Слайдер 1
+        const timeSlider = document.getElementById('time-slider');
+        const timeImages = document.querySelectorAll('.slider-img');
+        timeSlider.addEventListener('input', () => {
+            timeImages.forEach((img, index) => {
+                img.classList.toggle('active', index == timeSlider.value);
+            });
+        });
+
+        // Слайдер 2
+        const compSlider = document.getElementById('comparison-range');
+        const overlay = document.getElementById('comparison-overlay');
+        compSlider.addEventListener('input', () => {
+            overlay.style.clipPath = `inset(0 ${100 - compSlider.value}% 0 0)`;
+        });
+
+        function toggleErklärung() {
+            const text = document.getElementById('explanation-text');
+            text.style.display = (text.style.display === "block") ? "none" : "block";
+            if(text.style.display === "block") window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
